@@ -21,18 +21,41 @@ class ConferenceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                // ->url()
+                    ->label('Conference Name')
+                    ->default('Name')
+                // ->prefix('https://example')
+                // ->suffix('.com')
+                // ->prefixIcon('heroicon-o-rectangle-stack')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('start_date')
+                // ->hint('Here is the hint')
+                // ->hintIcon('heroicon-o-rectangle-stack')
+                // ->helperText('The name of the conference.')
+                // ->markAsRequired(false)
+                    ->maxLength(60),
+                // RichEditor
+                // ->disableToolbarButtons(['italic'])
+                // ->toolbarButtons(['h2', 'bold'])
+                Forms\Components\MarkDownEditor::make('description')
+                    ->helperText('Hello')
+                    ->required(),
+                Forms\Components\DatePicker::make('start_date')
+                    ->native(false)
                     ->required(),
                 Forms\Components\DateTimePicker::make('end_date')
+                    ->native(false)
                     ->required(),
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->maxLength(255),
+                // Forms\Components\Toggle::make('is_published')
+                //     ->default(true),
+                // Forms\Components\Checkbox::make('is_published')
+                //     ->default(true),
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'published' => 'Published',
+                        'archived' => 'Archived',
+                    ])
+                    ->required(),
                 Forms\Components\TextInput::make('region')
                     ->required()
                     ->maxLength(255),
