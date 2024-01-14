@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('contry');
             $table->string('postal_code');
+            $table->string('region');
             $table->timestamps();
         });
     }
