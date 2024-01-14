@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use App\Models\Conference;
 use App\Models\Speaker;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class SpeakerFactory extends Factory
 {
@@ -25,8 +25,9 @@ class SpeakerFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->safeEmail(),
             'bio' => $this->faker->text(),
+            'qualifications' => [],
             'twitter_handle' => $this->faker->word(),
-            'conference_id' => Conference::factory(),
+            'conference_id' => Conference::factory()->create(),
         ];
     }
 }
