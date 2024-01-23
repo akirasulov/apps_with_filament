@@ -6,6 +6,7 @@ use Filament\Forms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class Speaker extends Model
 {
@@ -28,16 +29,23 @@ class Speaker extends Model
             Forms\Components\TextInput::make('name')
                 ->required()
                 ->maxLength(255),
+            Forms\Components\FileUpload::make('avatar')
+                ->avatar()
+                ->directory('avatars')
+                ->getUploadedFileNameForStorageUsing(
+                    fn(TemporaryUploadedFile $file): string => (string) str($file->getClientOriginalName())
+                        ->prepend('custom-prefix-'),
+                )
+                ->imageEditor()
+                ->maxSize(1024 * 1024 * 10),
             Forms\Components\TextInput::make('email')
                 ->email()
                 ->required()
                 ->maxLength(255),
             Forms\Components\Textarea::make('bio')
-                ->required()
                 ->maxLength(65535)
                 ->columnSpanFull(),
             Forms\Components\TextInput::make('twitter_handle')
-                ->required()
                 ->maxLength(255),
             Forms\Components\Select::make('conference_id')
                 ->relationship('conference', 'name')
