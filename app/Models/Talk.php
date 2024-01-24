@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\TalkLength;
+use App\Enums\TalkStatus;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
@@ -18,6 +20,8 @@ class Talk extends Model
     protected $casts = [
         'id' => 'integer',
         'speaker_id' => 'integer',
+        'status' => TalkStatus::class,
+        'length' => TalkLength::class,
     ];
 
     public function speaker(): BelongsTo

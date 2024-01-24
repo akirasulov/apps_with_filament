@@ -8,6 +8,7 @@ use Filament\Forms\Components\Actions\Action;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class Speaker extends Model
@@ -18,6 +19,24 @@ class Speaker extends Model
         'id' => 'integer',
         'qualifications' => 'array',
         'conference_id' => 'integer',
+    ];
+
+    const QUALIFICATIONS = [
+        'business-leader' => 'Business Leader',
+        'charisma' => 'Charismatic Speaker',
+        'first-time' => 'First Time Speaker',
+        'hometown-hero' => 'Hometown Hero',
+        'humanitarian' => 'Works in Humanitarian Field',
+        'laracasts-contributor' => 'Laracasts Contributor',
+        'twitter-influencer' => 'Large Twitter Following',
+        'youtube-influencer' => 'Large YouTube Following',
+        'open-source' => 'Open Source Creator / Maintainer',
+        'unique-perspective' => 'Unique Perspective',
+    ];
+
+    const QUALIFICATIONS_DESCRIPTION = [
+        'business-leader' => 'Here is a nice long description',
+        'charisma' => 'This is even more information about why you should pick this one',
     ];
 
     public function conference(): BelongsTo
@@ -56,22 +75,8 @@ class Speaker extends Model
                 ->columnSpanFull()
                 ->searchable()
                 ->bulkToggleable()
-                ->options([
-                    'business-leader' => 'Business Leader',
-                    'charisma' => 'Charismatic Speaker',
-                    'first-time' => 'First Time Speaker',
-                    'hometown-hero' => 'Hometown Hero',
-                    'humanitarian' => 'Works in Humanitarian Field',
-                    'laracasts-contributor' => 'Laracasts Contributor',
-                    'twitter-influencer' => 'Large Twitter Following',
-                    'youtube-influencer' => 'Large YouTube Following',
-                    'open-source' => 'Open Source Creator / Maintainer',
-                    'unique-perspective' => 'Unique Perspective',
-                ])
-                ->descriptions([
-                    'business-leader' => 'Here is a nice long description',
-                    'charisma' => 'This is even more information about why you should pick this one',
-                ])
+                ->options(self::QUALIFICATIONS)
+                ->descriptions(self::QUALIFICATIONS_DESCRIPTION)
                 ->columns(3),
             Actions::make([
                 Action::make('star')
@@ -92,5 +97,10 @@ class Speaker extends Model
                     }),
             ]),
         ];
+    }
+
+    public function talks(): HasMany
+    {
+        return $this->hasMany(Talk::class);
     }
 }
