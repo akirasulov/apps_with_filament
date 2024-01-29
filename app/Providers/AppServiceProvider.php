@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Filament\Tables\Actions\CreateAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,5 +23,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::unguard();
         Model::shouldBeStrict();
+        CreateAction::configureUsing(function ($action) {
+            return $action->slideOver();
+        });
     }
 }

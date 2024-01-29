@@ -46,7 +46,7 @@ class Talk extends Model
         $this->save();
     }
 
-    public static function getForm(): array
+    public static function getForm($speakerID = null): array
     {
         return [
             Section::make('Conference Details')
@@ -58,11 +58,14 @@ class Talk extends Model
                     Forms\Components\TextInput::make('name')
                         ->required()
                         ->maxLength(255),
-                    Forms\Components\Textarea::make('abstract')
+                    Forms\Components\RichEditor::make('abstract')
                         ->required()
                         ->maxLength(65535)
                         ->columnSpanFull(),
                     Forms\Components\Select::make('speaker_id')
+                        ->hidden(function () use ($speakerID) {
+                            return $speakerID !== null;
+                        })
                         ->relationship('speaker', 'name')
                         ->required(),
                 ]),
